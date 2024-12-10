@@ -1,6 +1,7 @@
 import ProfileCard from "./ProfileCard";
 import Link from "next/link";
 import Image from "next/image";
+import Ad from "./Ad";
 
 const LeftMenu = ({ type }: { type: "home" | "profile" }) => {
   return (
@@ -97,7 +98,44 @@ const LeftMenu = ({ type }: { type: "home" | "profile" }) => {
           />
           <span>News</span>
         </Link>
+        <Link
+          href="/"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+        >
+          <Image
+            src="/courses.png"
+            alt=""
+            width={20}
+            height={20}
+          />
+          <span>courses</span>
+        </Link>
+        <Link
+          href="/"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+        >
+          <Image
+            src="/lists.png"
+            alt=""
+            width={20}
+            height={20}
+          />
+          <span>lists</span>
+        </Link>
+        <Link
+          href="/"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+        >
+          <Image
+            src="/settings.png"
+            alt=""
+            width={20}
+            height={20}
+          />
+          <span>Settings</span>
+        </Link>
       </div>
+      <Ad size="sm"/>
     </div>
   );
 };
