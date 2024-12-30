@@ -1,10 +1,26 @@
-import { useUser } from "@clerk/nextjs";
-import { useEffect } from "react";
-import Image from "next/image";
 import prisma from "@/lib/client";
-import { auth } from "@clerk/nextjs/server";
+import Image from "next/image";
 
 const AddPost = () => {
+
+  const testAction = async (formData:FormData) => {
+    /*
+    const desc = formData.get("desc") as string;
+    try {
+      prisma.post.create({
+        data: {
+          userId: userId,
+          desc: desc
+        }
+      })
+    }catch(err){
+      console.log(err)
+    }
+    */
+  };
+
+
+
   return (
     <div className="p-4 bg-white shadow-md rounded-lg flex gap-4 justify-between text-sm">
       {/*  AVATAT */}
@@ -20,7 +36,7 @@ const AddPost = () => {
       <div className="flex-1">
         {/* TEXT INPUT */}
         <form
-          action=""
+          
           className="flex gap-4 "
         >
           <textarea

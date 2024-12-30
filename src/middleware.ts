@@ -9,6 +9,10 @@ export default clerkMiddleware(async (auth, req, res) => {
     if (isProtectedRoute(req) && !authObject.userId) {
         return authObject.redirectToSignIn({ returnBackUrl: req.url });
     }
+    //console.log("Requested URL:", req.url);
+    //console.log("Is protected route:", isProtectedRoute(req));
+    //console.log("User ID:", authObject.userId);
+
 });
 
 export const config = {
