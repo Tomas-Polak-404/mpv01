@@ -18,14 +18,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className="scrollbar-hide">
         <head>
           <link
             rel="icon"
             href="/mainicon.ico"
           />
         </head>
-        <body className={inter.className}>
+        <body className={inter.className} >
           <div className="w-full bg-white px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
             <Navbar />
           </div>

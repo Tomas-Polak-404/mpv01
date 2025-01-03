@@ -3,21 +3,23 @@ import Image from "next/image";
 
 const AddPost = () => {
 
-  const testAction = async (formData:FormData) => {
+  const testAction = async (formData: FormData)=> {
+
+
     /*
     const desc = formData.get("desc") as string;
-    try {
+    try{
       prisma.post.create({
-        data: {
-          userId: userId,
-          desc: desc
+        data:{
+          userId:
+          desc:desc,
         }
       })
     }catch(err){
-      console.log(err)
+      console.log(err);
     }
-    */
-  };
+      */
+  }
 
 
 
@@ -36,7 +38,6 @@ const AddPost = () => {
       <div className="flex-1">
         {/* TEXT INPUT */}
         <form
-          
           className="flex gap-4 "
         >
           <textarea

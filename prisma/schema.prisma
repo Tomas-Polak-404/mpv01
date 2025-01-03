@@ -15,7 +15,6 @@ datasource db {
 
 model User {
   id                     String          @id
-  clerkId                String?         @unique // Přidáno Clerk ID
   username               String          @unique
   avatar                 String?
   cover                  String?
@@ -30,8 +29,8 @@ model User {
   posts                  Post[]
   comments               Comment[]
   likes                  Like[]
-  followers              Follower[]      @relation("UserFollowers")
-  followings             Follower[]      @relation("UserFollowings")
+  followers              Follower[]      @relation("UserFollowings")
+  followings             Follower[]      @relation("UserFollowers")
   followRequestsSent     FollowRequest[] @relation("FollowRequestsSent")
   followRequestsReceived FollowRequest[] @relation("FollowRequestsReceived")
   blocks                 Block[]         @relation("BlocksSent")
