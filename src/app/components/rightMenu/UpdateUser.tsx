@@ -2,8 +2,12 @@
 
 import { updateProfile } from "@/lib/actions";
 import { User } from "@prisma/client";
+import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useActionState } from "react";
+import React from "react";
+
+
 
 const UpdateUser = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
@@ -49,19 +53,28 @@ const UpdateUser = ({ user }: { user: User }) => {
               Use the navbar to change the avatar or username
             </div>
             {/* COVER PIC UPLOAD */}
-            <div className="flex flex-col gap-4 my-4">
-              <label htmlFor="">Cover Picture</label>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <Image
-                  src={user.cover || "/noCover.png"}
-                  alt=""
-                  width={48}
-                  height={32}
-                  className="w-12 h-8 rounded-md object-cover"
-                />
-                <span className="text-xs underline text-gray-600">Change</span>
-              </div>
-            </div>
+            <CldUploadWidget uploadPreset="<Your Upload Preset>">
+              {({ open }) => {
+                return (
+                  <div className="flex flex-col gap-4 my-4">
+                    <label htmlFor="">Cover Picture</label>
+                    <div className="flex items-center gap-2 cursor-pointer">
+                      <Image
+                        src={user.cover || "/noCover.png"}
+                        alt=""
+                        width={48}
+                        height={32}
+                        className="w-12 h-8 rounded-md object-cover"
+                      />
+                      <span className="text-xs underline text-gray-600">
+                        Change
+                      </span>
+                    </div>
+                  </div>
+                );
+              }}
+            </CldUploadWidget>
+            
             {/* WRAPPER */}
             <div className="flex flex-wrap justify-between gap-2 xl:gap-4">
               {/* INPUT */}

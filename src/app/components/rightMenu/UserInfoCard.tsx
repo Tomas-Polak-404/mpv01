@@ -86,7 +86,7 @@ const UserInfoCard = async ({ user }: { user: User }) => {
               height={16}
             />
             <span>
-              Living in <b>user.city</b>
+              Living in <b>{user.city}</b>
             </span>
           </div>
         )}
@@ -99,7 +99,7 @@ const UserInfoCard = async ({ user }: { user: User }) => {
               height={16}
             />
             <span>
-              Went to <b>user.school</b>
+              Went to <b>{user.school}</b>
             </span>
           </div>
         )}
@@ -112,7 +112,7 @@ const UserInfoCard = async ({ user }: { user: User }) => {
               height={16}
             />
             <span>
-              Works at <b>user.work</b>
+              Works at <b>{user.work}</b>
             </span>
           </div>
         )}
@@ -134,7 +134,7 @@ const UserInfoCard = async ({ user }: { user: User }) => {
               </Link>
             </div>
           )}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 pl-6">
             <Image
               src="/date.png"
               alt=""
