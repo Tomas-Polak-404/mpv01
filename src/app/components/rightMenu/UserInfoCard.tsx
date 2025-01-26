@@ -51,12 +51,12 @@ const UserInfoCard = async ({ user }: { user: User }) => {
   else {return null}
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md text-sm flex flex-col gap-4">
+    <div className="p-4 bg-black border-[1px] border-gray-600 rounded-lg shadow-md text-sm flex flex-col gap-4 text-white">
       {/* TOP */}
       <div className="flex items-center justify-between font-medium">
-        <span className="text-gray-500">User Information</span>
+        <span className="text-gray-300">User Information</span>
         {currentUserId === user.id ? (
-          <UpdateUser user={user}/>
+          <UpdateUser user={user} />
         ) : (
           <Link
             href="/"
@@ -69,7 +69,7 @@ const UserInfoCard = async ({ user }: { user: User }) => {
       {/* BOTTOW */}
       <div className="flex flex-col gap-2 text-gray-500">
         <div className="flex items-center gap-2">
-          <span className="text-xl text-black">
+          <span className="text-xl text-white">
             {user.name && user.surname
               ? user.name + " " + user.surname
               : user.username}

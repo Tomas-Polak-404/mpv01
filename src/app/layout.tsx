@@ -18,25 +18,30 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className="scrollbar-hide">
+      <html
+        lang="en"
+        className="scrollbar-hide bg-black"
+      >
         <head>
           <link
             rel="icon"
             href="/mainicon.ico"
           />
         </head>
-        <body className={inter.className} >
-          <div className="w-full bg-white px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
+        <body className={inter.className}>
+          <div className="w-full bg-gray-950 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 fixed z-50">
             <Navbar />
           </div>
-          <div className=" bg-slate-100 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
+          <div className=" bg-black px-4 ">
+            <br />
+            <br />
+            <br />
+            <br />
             {children}
           </div>
+          ;
         </body>
       </html>
     </ClerkProvider>
   );
-} 
-
-
-
+}

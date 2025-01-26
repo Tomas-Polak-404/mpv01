@@ -50,16 +50,16 @@ const ProfilePage = async ({params}:{params: Promise<{username:string}>}) => {
   } 
 
   return (
-    <div className="flex gap-6 pt-6 ">
-      <div className="hidden xl:block w-[30%]">
+    <div className="flex gap-6 pt-6 justify-center text-white ">
+      <div className="hidden xl:block xl:fixed w-[18%] -ml-[58%] h-full">
         <LeftMenu type="profile" />
       </div>
-      <div className="w-full lg:w-[70%] xl:w-[50%]">
+      <div className="w-full lg:w-[70%] xl:w-[38%] ">
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center border-[1px] pb-3 border-gray-600 rounded-lg">
             <div className="w-full h-64 relative">
               <Image
-                src={user.cover || "noCover.png"}
+                src={user.cover || "/noCover.png"}
                 alt=""
                 fill
                 className="object-cover rounded-sm shadow-md"
@@ -69,7 +69,7 @@ const ProfilePage = async ({params}:{params: Promise<{username:string}>}) => {
                 alt=""
                 width={128}
                 height={128}
-                className="object-cover w-32 h-32 rounded-full absolute left-0 right-0 m-auto ring-4 ring-white -bottom-16"
+                className="object-cover w-32 h-32 rounded-full absolute left-0 right-0 m-auto ring-4  -bottom-16"
               />
             </div>
             <h1 className="mt-20 mb-4 text-2xl font-medium">
@@ -92,10 +92,10 @@ const ProfilePage = async ({params}:{params: Promise<{username:string}>}) => {
               </div>
             </div>
           </div>
-          <Feed />
+          <Feed username={user.username} />
         </div>
       </div>
-      <div className="hidden xl:block w-[30%]">
+      <div className="hidden xl:block xl:fixed w-[18%] ml-[58%] h-full">
         <RightMenu user={user} />
       </div>
     </div>

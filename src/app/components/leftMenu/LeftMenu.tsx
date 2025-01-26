@@ -1,136 +1,162 @@
-import ProfileCard from "./ProfileCard";
 import Link from "next/link";
 import Image from "next/image";
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
+import React from "react";
 
 
-const LeftMenu = ({ type }: { type: "home" | "profile" }) => {
+const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
+
+
+  
+
+
+  const { userId } = await auth();
+
+  if (!userId) {
+    console.log("userId not found");
+    return null;
+  }
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId,
+    },
+    include: {
+      _count: {
+        select: {
+          followers: true,
+        },
+      },
+    },
+  });
+  console.log(user);
+
+  if (!user) {
+    console.log("user not found");
+    return null;
+  }
+  const profileUrl = `/profile/${user.username}`;
+
+
+
   return (
-    <div className="flex flex-col gap-6">
-      {type === "home" && <ProfileCard />}
-      <div className="p-4 bg-white rounded-lg shadow-md text-sm text-gray-500 flex flex-col gap-2">
+    <div className="flex flex-col gap-6 ">
+      <div className="p-4 bg-black rounded-lg border-gray-600 border-[1px] text-sm text-white flex flex-col gap-2">
         <Link
           href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
             src="/posts.png"
             alt=""
-            width={20}
-            height={20}
+            width={30}
+            height={30}
+          />
+          <span>Home</span>
+        </Link>
+        <hr className="border-t-1 border-transparent w-36 self-center" />
+        <Link
+          href={profileUrl}
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
+        >
+          <Image
+            src="/posts.png"
+            alt=""
+            width={30}
+            height={30}
+          />
+          <span>My profile</span>
+        </Link>
+        <hr className="border-t-1 border-transparent w-36 self-center" />
+        <Link
+          href="/"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
+        >
+          <Image
+            src="/posts.png"
+            alt=""
+            width={30}
+            height={30}
           />
           <span>My posts</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+        <hr className="border-t-1 border-transparent w-36 self-center" />
         <Link
           href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
             src="/activity.png"
             alt=""
-            width={20}
-            height={20}
+            width={30}
+            height={30}
           />
           <span>Activity</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+        <hr className="border-t-1 border-transparent w-36 self-center" />
+
         <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
-        >
-          <Image
-            src="/market.png"
-            alt=""
-            width={20}
-            height={20}
-          />
-          <span>Marketplace</span>
-        </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
-        <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+          href="#" 
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
             src="/events.png"
             alt=""
-            width={20}
-            height={20}
+            width={30}
+            height={30}
           />
-          <span>Events</span>
+          <span>Messages</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+        <hr className="border-t-1 border-transparent w-36 self-center" />
         <Link
           href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
             src="/albums.png"
             alt=""
-            width={20}
-            height={20}
+            width={30}
+            height={30}
           />
           <span>Albums</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+        <hr className="border-t-1 border-transparent w-36 self-center" />
         <Link
           href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
             src="/videos.png"
             alt=""
-            width={20}
-            height={20}
+            width={30}
+            height={30}
           />
           <span>Videos</span>
         </Link>
-        <hr className="border-t-1 border-gray-50 w-36 self-center" />
+        <hr className="border-t-1 border-transparent w-36 self-center" />
         <Link
           href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
-        >
-          <Image
-            src="/news.png"
-            alt=""
-            width={20}
-            height={20}
-          />
-          <span>News</span>
-        </Link>
-        <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
-        >
-          <Image
-            src="/courses.png"
-            alt=""
-            width={20}
-            height={20}
-          />
-          <span>courses</span>
-        </Link>
-        <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
             src="/lists.png"
             alt=""
-            width={20}
-            height={20}
+            width={30}
+            height={30}
           />
           <span>lists</span>
         </Link>
+        <hr className="border-t-1 border-transparent w-36 self-center" />
         <Link
           href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-100"
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
             src="/settings.png"
             alt=""
-            width={20}
-            height={20}
+            width={30}
+            height={30}
           />
           <span>Settings</span>
         </Link>
@@ -138,5 +164,6 @@ const LeftMenu = ({ type }: { type: "home" | "profile" }) => {
     </div>
   );
 };
+
 
 export default LeftMenu;

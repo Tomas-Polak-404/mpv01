@@ -57,7 +57,7 @@ const UserInfoCardInteraction = ({
   return (
     <>
       <form action={follow}>
-        <button className="w-full bg-blue-500 rounded-md text-white text-sm p-2">
+        <button className="w-full bg-blue-500 rounded-md text-white  text-sm p-2">
           {opimisticState.following
             ? "Following"
             : opimisticState.followingRequestSent

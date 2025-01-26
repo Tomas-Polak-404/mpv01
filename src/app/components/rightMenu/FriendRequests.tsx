@@ -22,10 +22,10 @@ const FriendRequests = async () => {
 
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md text-sm flex flex-col gap-4">
+    <div className="p-4 bg-black rounded-lg border-[1px] border-gray-600 text-sm flex flex-col gap-4">
       {/* TOP */}
       <div className="flex items-center justify-between font-medium">
-        <span className="text-gray-500">Friend requests</span>
+        <span className="text-white">Friend requests</span>
         <Link
           href="/"
           className="text-blue-500 text-xs"
