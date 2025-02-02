@@ -1,4 +1,5 @@
 
+
 import Feed from "@/app/components/feed/Feed";
 import LeftMenu from "@/app/components/leftMenu/LeftMenu";
 import RightMenu from "@/app/components/rightMenu/RightMenu";
@@ -6,14 +7,17 @@ import prisma from "@/lib/client";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import FollowersPopup from "@/app/components/FollowersPopup";
+import FollowingsPopup from "@/app/components/FollowingsPopup";
 
-const ProfilePage = async ({params}:{params: Promise<{username:string}>}) => {
 
-  const { username } = await params;
+
+const ProfilePage = async ({ params }: { params: { username: string } }) => {
+  const { username } = params;
 
   const user = await prisma.user.findFirst({
     where: {
-      username: username
+      username: username,
     },
     include: {
       _count: {
@@ -21,33 +25,70 @@ const ProfilePage = async ({params}:{params: Promise<{username:string}>}) => {
           followers: true,
           followings: true,
           posts: true,
-        }
-      }
-    }
+        },
+      },
+      followers: {
+        include: {
+          follower: {
+            select: {
+              id: true,
+              username: true,
+              avatar: true,
+            },
+          },
+        },
+      },
+      followings: {
+        include: {
+          following: {
+            select: {
+              id: true,
+              username: true,
+              avatar: true,
+            },
+          },
+        },
+      },
+    },
   });
 
-  if (!user) { return notFound()} 
+  if (!user) {
+    return notFound();
+  }
 
-  const {userId: currentUserId} = await auth();
-
+  const { userId: currentUserId } = await auth();
 
   let isBlocked;
 
   if (currentUserId) {
-    const res = isBlocked = await prisma.block.findFirst({
+    const res = await prisma.block.findFirst({
       where: {
         blockerId: user.id,
-        blockedId: currentUserId
-      }
-    })
-    if (res) isBlocked=true;
-  }
-  else {
+        blockedId: currentUserId,
+      },
+    });
+    isBlocked = !!res;
+  } else {
     isBlocked = false;
   }
+
   if (isBlocked) {
     return notFound();
-  } 
+  }
+
+  // Formátování followerů
+  const followers = user.followers.map((follow) => ({
+    id: follow.follower.id,
+    username: follow.follower.username,
+    avatar: follow.follower.avatar,
+  }));
+
+  // Formátování followings
+  const followings = user.followings.map((follow) => ({
+    id: follow.following.id,
+    username: follow.following.username,
+    avatar: follow.following.avatar,
+  }));
 
   return (
     <div className="flex gap-6 pt-6 justify-center text-white ">
@@ -82,14 +123,14 @@ const ProfilePage = async ({params}:{params: Promise<{username:string}>}) => {
                 <span className="font-medium">{user._count.posts}</span>
                 <span className="text-sm">Posts</span>
               </div>
-              <div className="flex flex-col items-center">
-                <span className="font-medium">{user._count.followers}</span>
-                <span className="text-sm">Followers</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="font-medium">{user._count.followings}</span>
-                <span className="text-sm">Following</span>
-              </div>
+              <FollowersPopup
+                user={user}
+                followers={followers}
+              />
+              <FollowingsPopup
+                user={user}
+                followings={followings}
+              />
             </div>
           </div>
           <Feed username={user.username} />

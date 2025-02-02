@@ -135,19 +135,7 @@ const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
           <span>Videos</span>
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
-        <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
-        >
-          <Image
-            src="/lists.png"
-            alt=""
-            width={30}
-            height={30}
-          />
-          <span>lists</span>
-        </Link>
-        <hr className="border-t-1 border-transparent w-36 self-center" />
+        
         <Link
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"

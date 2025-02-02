@@ -41,12 +41,20 @@ const UpdateUser = ({ user }: { user: User }) => {
         <div className="fixed w-full h-screen top-0 left-0 overflow-hidden bg-black bg-opacity-65 flex items-center justify-center z-50">
           <form
             action={(formData) =>
-              formAction({ formData, cover: cover?.secure_url || ""})
+              formAction({ formData, cover: cover?.secure_url || "" })
             }
             className="p-12 bg-black text-white rounded-lg border-[1px] border-gray-600 flex flex-col gap-2 w-full md:w-1/2 xl:w-1/3 relative"
           >
             {/* TITLE */}
-            <h1>Update Profile</h1>
+            <div className="flex items-center justify-between">
+              <h1>Update Profile</h1>
+              <div
+                className=" text-2xl right-3 top-3 cursor-pointer text-gray-400 hover:text-white"
+                onClick={handleClose}
+              >
+                &times;
+              </div>
+            </div>
             <div className=" mt-4 text-xs text-gray-500">
               Use the navbar to change the avatar or username
             </div>
@@ -189,12 +197,6 @@ const UpdateUser = ({ user }: { user: User }) => {
             {state.error && (
               <span className="text-red-500">Something went wrong</span>
             )}
-            <div
-              className="absolute text-lg right-3 top-3 cursor-pointer"
-              onClick={handleClose}
-            >
-              X
-            </div>
           </form>
         </div>
       )}
