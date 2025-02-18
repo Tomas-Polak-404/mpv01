@@ -31,49 +31,46 @@ const AddPost = () => {
       {/* POST */}
       <div className="flex-1">
         {/* TEXT INPUT */}
-        <form className="flex flex-col gap-4" action={(formData)=>addPost(formData, img?.secure_url || null)}>
+        <form
+          className="flex flex-col gap-4"
+          action={(formData) => addPost(formData, img?.secure_url || null)}
+        >
           <div className="flex">
             <textarea
               placeholder="What's on your mind?"
               className="bg-black flex-1 rounded-lg p-2 border-[1px] text-white border-gray-600"
               name="desc"
+              maxLength={280}
               onChange={(e) => setDesc(e.target.value)}
             ></textarea>
-            <Image
-              src="/emoji.png"
-              width={20}
-              height={20}
-              alt="emoji"
-              className="w-5 h-5  cursor-pointer self-end mx-2 "
-            />
           </div>
           {/* POST OPTIONS */}
           <div className="flex justify-between ">
             <div className="flex items-center gap-4  text-gray-400   flex-wrap">
-            <CldUploadWidget
-              uploadPreset="social"
-              onSuccess={(result, { widget }) => {
-                setImg(result.info);
-                widget.close();
-              }}
-            >
-              {({ open }) => {
-                return (
-                  <div
-                    className="flex text-gray-400  items-center gap-2 cursor-pointer"
-                    onClick={() => open()}
-                  >
-                    <Image
-                      src="/addimage.png"
-                      width={20}
-                      height={20}
-                      alt=""
-                    />
-                    Photo
-                  </div>
-                );
-              }}
-            </CldUploadWidget>
+              <CldUploadWidget
+                uploadPreset="social"
+                onSuccess={(result, { widget }) => {
+                  setImg(result.info);
+                  widget.close();
+                }}
+              >
+                {({ open }) => {
+                  return (
+                    <div
+                      className="flex text-gray-400  items-center gap-2 cursor-pointer"
+                      onClick={() => open()}
+                    >
+                      <Image
+                        src="/addimage.png"
+                        width={20}
+                        height={20}
+                        alt=""
+                      />
+                      Photo
+                    </div>
+                  );
+                }}
+              </CldUploadWidget>
               <div className="flex items-center gap-2 cursor-pointer">
                 <Image
                   src="/addVideo.png"
@@ -93,7 +90,10 @@ const AddPost = () => {
                 Event
               </div>
             </div>
-            <AddPostButton />
+            <div className="text-right text-gray-400 mx-2 ml-4 h-[100%] flex items-center justify-center gap-6">
+              {desc.length} / 280
+              <AddPostButton />
+            </div>
           </div>
         </form>
       </div>

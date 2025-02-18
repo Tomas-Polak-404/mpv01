@@ -6,11 +6,6 @@ import React from "react";
 
 
 const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
-
-
-  
-
-
   const { userId } = await auth();
 
   if (!userId) {
@@ -37,6 +32,7 @@ const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
     return null;
   }
   const profileUrl = `/profile/${user.username}`;
+
 
 
 
@@ -74,19 +70,6 @@ const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
-            src="/posts.png"
-            alt=""
-            width={30}
-            height={30}
-          />
-          <span>My posts</span>
-        </Link>
-        <hr className="border-t-1 border-transparent w-36 self-center" />
-        <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
-        >
-          <Image
             src="/activity.png"
             alt=""
             width={30}
@@ -97,7 +80,21 @@ const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
         <hr className="border-t-1 border-transparent w-36 self-center" />
 
         <Link
-          href="#" 
+          href=""
+          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
+        >
+          <Image
+            src="/settings.png"
+            alt=""
+            width={30}
+            height={30}
+          />
+          <span>Saved</span>
+        </Link>
+        <hr className="border-t-1 border-transparent w-36 self-center" />
+
+        <Link
+          href="#"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image
@@ -109,35 +106,9 @@ const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
           <span>Messages</span>
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
+
         <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
-        >
-          <Image
-            src="/albums.png"
-            alt=""
-            width={30}
-            height={30}
-          />
-          <span>Albums</span>
-        </Link>
-        <hr className="border-t-1 border-transparent w-36 self-center" />
-        <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
-        >
-          <Image
-            src="/videos.png"
-            alt=""
-            width={30}
-            height={30}
-          />
-          <span>Videos</span>
-        </Link>
-        <hr className="border-t-1 border-transparent w-36 self-center" />
-        
-        <Link
-          href="/"
+          href="/settings"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
           <Image

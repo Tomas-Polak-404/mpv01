@@ -8,6 +8,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import SearchBar from "./SearchBar";
 
 
 const Navbar = () => {
@@ -24,20 +25,8 @@ const Navbar = () => {
       </div>
 
       {/* CENTER */}
-      <div className=" flex w-[50%] text-small items-center justify-center ">
-        <div className="hidden xl:flex p-2  flex-row items-center rounded-xl outline-8 border-[1px] border-gray-600   ">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="bg-transparent outline-none text-white"
-          />
-          <Image
-            src="/search.png"
-            alt=""
-            width={14}
-            height={14}
-          />
-        </div>
+      <div className="flex w-[50%] text-small items-center justify-center">
+        <SearchBar /> {/* Použití SearchBar komponenty */}
       </div>
 
       {/* RIGHT */}

@@ -44,23 +44,22 @@ const PostInteraction = ({
   return (
     <div className="flex items-center justify-between text-sm my-4">
       <div className="flex gap-8">
-        <div className="flex items-center gap-4 bg-black  p-2 rounded-xl">
-          <form action={likeAction}>
+        <div className="flex items-center justify-between gap-4   p-2 rounded-xl">
+          <form
+            action={likeAction}
+            className="h-[100%] flex justify-center items-center "
+          >
             <button>
               <Image
                 src={optimisticLike.isLiked ? "/liked.png" : "/like.png"}
                 width={16}
                 height={16}
                 alt=""
-                className="cursor-pointer"
+                className="cursor-pointer  h-[100%]"
               />
             </button>
           </form>
-          <span className="text-gray-300">|</span>
-          <span className="text-white">
-            {optimisticLike.likeCount}
-            <span className="hidden md:inline"> Likes</span>
-          </span>
+          <span className="text-white">{optimisticLike.likeCount}</span>
         </div>
         <div className="flex items-center gap-4 bg-black  p-2 rounded-xl">
           <Image
@@ -70,26 +69,10 @@ const PostInteraction = ({
             alt=""
             className="cursor-pointer"
           />
-          <span className="text-gray-300">|</span>
-          <span className="text-white">
-            
-            <span className="hidden md:inline"> Comments</span>
-          </span>
+        {commentNumber}
         </div>
       </div>
-      <div className="flex items-center gap-4 bg-black p-2 rounded-xl">
-        <Image
-          src="/share.png"
-          width={16}
-          height={16}
-          alt=""
-          className="cursor-pointer"
-        />
-        <span className="text-gray-300">|</span>
-        <span className="text-white">
-          <span className="hidden md:inline"> Shares</span>
-        </span>
-      </div>
+      
     </div>
   );
 };

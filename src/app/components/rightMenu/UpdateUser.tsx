@@ -38,7 +38,7 @@ const UpdateUser = ({ user }: { user: User }) => {
         Update
       </span>
       {open && (
-        <div className="fixed w-full h-screen top-0 left-0 overflow-hidden bg-black bg-opacity-65 flex items-center justify-center z-50">
+        <div className="fixed w-full h-screen top-0 left-0 overflow-hidden bg-black bg-opacity-65 flex items-center justify-center z-40">
           <form
             action={(formData) =>
               formAction({ formData, cover: cover?.secure_url || "" })

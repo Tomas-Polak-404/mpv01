@@ -9,7 +9,7 @@ import UserInfoCard from "./UserInfoCard";
 
 const RightMenu = ({ user }: { user?: User }) => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 z-50">
       {user ? (
         <>
           <Suspense fallback="loading...">

@@ -351,3 +351,20 @@ export const addStory = async (img: string) => {
   }
 };
 
+export const getPostById = async (id: string) => {
+  const numericId = parseInt(id, 10); // převod string na number
+  if (isNaN(numericId)) {
+    throw new Error("Invalid post id");
+  }
+
+  return await prisma.post.findUnique({
+    where: { id: numericId },
+    include: {
+      user: true,
+      likes: true,
+      _count: {
+        select: { comments: true },
+      },
+    },
+  });
+};
