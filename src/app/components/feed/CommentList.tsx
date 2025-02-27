@@ -19,6 +19,20 @@ const CommentList = ({
   const [commentState, setCommentState] = useState(comments);
   const [desc, setDesc] = useState("");
 
+  // Přidána logika pro omezení délky komentáře
+  const handleDescChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const input = e.target.value.slice(0, 280);
+    setDesc(input);
+  };
+
+  // Nová funkce pro zpracování klávesových zkratek
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      e.currentTarget.form?.requestSubmit();
+    }
+  };
+
   const add = async () => {
     if (!user || !desc) return;
 
@@ -47,6 +61,7 @@ const CommentList = ({
     try {
       const createdComment = await addComment(postId, desc);
       setCommentState((prev) => [createdComment, ...prev]);
+      setDesc(""); // Resetovat textarea po odeslání
     } catch (err) {}
   };
 
@@ -54,6 +69,7 @@ const CommentList = ({
     commentState,
     (state, value: CommentWithUser) => [value, ...state]
   );
+
   return (
     <>
       {user && (
@@ -69,13 +85,19 @@ const CommentList = ({
             action={add}
             className="flex-1 flex items-center justify-between bg-black text-white border-[1px] border-gray-600 rounded-xl text-sm px-6 py-2 w-full"
           >
-            <input
-              type="text"
+            <textarea
               placeholder="Write a comment..."
-              className="bg-transparent outline-none flex-1"
-              onChange={(e) => setDesc(e.target.value)}
+              className="bg-black rounded-lg p-2  text-white flex-1 max-w-[30vw] testCss outline-none resize-none"
+              value={desc}
+              onChange={handleDescChange}
+              onKeyDown={handleKeyDown}
+              rows={1}
             />
-            
+            <button
+              type="submit"
+            >
+              Send
+            </button>
           </form>
         </div>
       )}
@@ -87,7 +109,10 @@ const CommentList = ({
             key={comment.id}
           >
             {/* AVATAR */}
-            <Link className="cursor-pointer" href={`/profile/${comment.user.username}`}>
+            <Link
+              className="cursor-pointer"
+              href={`/profile/${comment.user.username}`}
+            >
               <Image
                 src={comment.user.avatar || "noAvatar.png"}
                 alt=""
@@ -98,15 +123,18 @@ const CommentList = ({
             </Link>
             {/* DESC */}
             <div className="flex flex-col gap-2 flex-1">
-              <Link className="cursor-pointer" href={`/profile/${comment.user.username}`}>
+              <Link
+                className="cursor-pointer"
+                href={`/profile/${comment.user.username}`}
+              >
                 <span className="font-medium">
                   {comment.user.name && comment.user.surname
                     ? comment.user.name + " " + comment.user.surname
                     : comment.user.username}
                 </span>
               </Link>
-              <p>{comment.desc}</p>
-              <div className="flex items-center gap-8 text-xs text-gray-500 mt-2">
+              <p className="break-all">{comment.desc}</p>
+              <div className="flex items-center gap-8 text-xs text-white mt-2">
                 <div className="flex items-center gap-4">
                   <Image
                     src="/like.png"
@@ -115,8 +143,7 @@ const CommentList = ({
                     height={12}
                     className="cursor-pointer w-4 h-4"
                   />
-                  <span className="text-gray-300">|</span>
-                  <span className="text-gray-500">0 Likes</span>
+                  <span className="text-white">0</span>
                 </div>
                 <div className="">Reply</div>
               </div>

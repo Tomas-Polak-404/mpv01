@@ -8,21 +8,24 @@ import UserMediaView from "./UserMediaView";
 const UserMediaCard = async ({ user }: { user: User }) => {
   // Načtení všech obrázků
   const postWithMedia = await prisma.post.findMany({
-    where: {
-      userId: user.id,
-      img: {
-        not: null,
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+   where: {
+     userId: user.id,
+     img: { not: null },
+   },
+   include: {
+     likes: {
+       where: {
+         postId: { not: null }, // Zajišťujeme, že bereme pouze liky u postů
+       },
+     },
+   },
+   orderBy: { createdAt: "desc" },
   });
 
-  // Transformace dat do formátu, který budeme používat
   const media = postWithMedia.map((post) => ({
     id: post.id,
-    img: post.img || "", 
+    img: post.img!,
+    likes: post.likes.map((like) => like.userId),
   }));
 
   return (

@@ -35,7 +35,6 @@ const Post = async ({ post }: { post: FeedPostType }) => {
                 : post.user.username}
             </span>
           </div>
-          
         </div>
         {/* POST DESCRIPTION */}
         <div className="flex flex-col gap-4">
@@ -49,7 +48,7 @@ const Post = async ({ post }: { post: FeedPostType }) => {
               />
             </div>
           )}
-          <p>{post.desc}</p>
+          <p className="break-all">{post.desc}</p>
         </div>
         {/* INTERACTIONS */}
         <Suspense fallback="Loading...">

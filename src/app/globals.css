@@ -9,3 +9,7 @@
 .scrollbar-hide{
   scrollbar-width: none;
 } 
+
+.testCss {
+  field-sizing: content;
+}

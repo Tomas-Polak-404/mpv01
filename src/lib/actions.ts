@@ -207,36 +207,30 @@ export const updateProfile = async (
 
 export const switchLike = async (postId: number) => {
   const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
 
-  if (!userId) {
-    throw new Error("User is not authenticated!");
-  }
+  const existingLike = await prisma.like.findFirst({
+    where: {
+      postId,
+      userId,
+      commentId: null, // Zajišťujeme, že pracujeme pouze s post liky
+    },
+  });
 
-  try {
-    const existingLike = await prisma.like.findFirst({
-      where: {
-        postId: postId,
-        userId: userId,
+  if (existingLike) {
+    await prisma.like.delete({
+      where: { id: existingLike.id },
+    });
+  } else {
+    await prisma.like.create({
+      data: {
+        postId,
+        userId,
       },
     });
-
-    if (existingLike) {
-      await prisma.like.delete({
-        where: {
-          id: existingLike.id,
-        },
-      });
-    } else {
-      await prisma.like.create({
-        data: {
-          userId,
-          postId,
-        },
-      });
-    }
-  } catch (err) {
-    console.log(err);
   }
+
+  revalidatePath("/");
 };
 
 export const addComment = async (postId: number, desc: string) => {
@@ -263,34 +257,53 @@ export const addComment = async (postId: number, desc: string) => {
   }
 };
 
-export const addPost = async (formData: FormData, img: string) => {
-  const desc = formData.get("desc") as string;
+const postSchema = z.object({
+  desc: z.string().min(1).max(280),
+  img: z
+    .string()
+    .transform((value) => (value === "null" ? null : value))
+    .nullable()
+    .optional(),
+});
 
-  const Desc = z.string().min(1).max(280);
 
-  const validatedDesc = Desc.safeParse(desc);
-
-  if (!validatedDesc.success) {
-    console.log("Description is not valid")
-    return;
-  }
-  const { userId } = await auth();
-  if (!userId) {
-    throw new Error("User is not authenticated!");
-  }
-
+export const addPost = async (
+  prevState: { error: string | null },
+  formData: FormData
+): Promise<{ error: string | null }> => {
   try {
+    // Získání dat z formData
+    const rawData = {
+      desc: formData.get("desc") as string,
+      img: formData.get("img") as string,
+    };
+
+    // Validace
+    const validatedData = postSchema.parse(rawData);
+
+    // Autentizace
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    // Vytvoření příspěvku upravte na:
     await prisma.post.create({
       data: {
-        desc: validatedDesc.data,
+        desc: validatedData.desc,
         userId,
-        img,
+        img: validatedData.img === "null" ? null : validatedData.img,
       },
     });
 
     revalidatePath("/");
+    return { error: null };
   } catch (error) {
-    console.log(error)
+    if (error instanceof z.ZodError) {
+      return { error: "Post must be between 1-280 characters" };
+    }
+    if (error instanceof Error) {
+      return { error: error.message };
+    }
+    return { error: "Unknown error occurred" };
   }
 };
 

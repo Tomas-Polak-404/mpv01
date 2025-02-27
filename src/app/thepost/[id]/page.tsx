@@ -44,19 +44,22 @@ const ThePost = async ({ params: { id } }: PageProps) => {
           {/* USER */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link className="cursor-pointer flex items-center gap-4" href={`/profile/${post.user.username}`}>
-              <Image
-                src={post.user.avatar || "/noAvatar.png"}
-                width={40}
-                height={40}
-                alt="User avatar"
-                className="w-10 h-10 rounded-full"
-              />
-              <span className="font-medium">
-                {post.user.name && post.user.surname
-                  ? `${post.user.name} ${post.user.surname}`
-                  : post.user.username}
-              </span>
+              <Link
+                className="cursor-pointer flex items-center gap-4"
+                href={`/profile/${post.user.username}`}
+              >
+                <Image
+                  src={post.user.avatar || "/noAvatar.png"}
+                  width={40}
+                  height={40}
+                  alt="User avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+                <span className="font-medium">
+                  {post.user.name && post.user.surname
+                    ? `${post.user.name} ${post.user.surname}`
+                    : post.user.username}
+                </span>
               </Link>
             </div>
             {userId === post.user.id && <PostInfo postId={post.id} />}
@@ -73,7 +76,7 @@ const ThePost = async ({ params: { id } }: PageProps) => {
                 />
               </div>
             )}
-            <p>{post.desc}</p>
+            <p className="break-all">{post.desc}</p>
           </div>
           {/* INTERACTION */}
           <Suspense fallback="Loading...">
