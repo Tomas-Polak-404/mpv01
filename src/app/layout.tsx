@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,13 @@ export default function RootLayout({
             <br />
             <br />
             {children}
+            <Toaster
+              position="bottom-center"
+              toastOptions={{
+                className:
+                  "bg-gray-900 text-white border border-gray-600 rounded-md px-4 py-2",
+              }}
+            />
           </div>
         </body>
       </html>

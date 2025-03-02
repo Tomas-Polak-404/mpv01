@@ -36,8 +36,9 @@ model User {
   blocks                 Block[]         @relation("BlocksSent")
   blockedBy              Block[]         @relation("BlocksReceived")
   stories                Story[]
+  notifications Notification[]  // Pro hlavní vztah
+  actorNotifications Notification[] @relation("NotificationActor") // Pro actor vztah
 }
-
 
 model Post {
   id        Int       @id @default(autoincrement())
@@ -49,6 +50,8 @@ model Post {
   userId    String
   comments  Comment[]
   likes     Like[]
+
+  notifications Notification[]
 }
 
 model Comment {
@@ -61,6 +64,8 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
   likes     Like[]
+
+  notifications Notification[]
 }
 
 model Like {
@@ -81,6 +86,8 @@ model Follower {
   followerId  String
   following   User     @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
   followingId String
+
+  notifications Notification[]
 }
 
 model FollowRequest {
@@ -112,4 +119,32 @@ model Story {
   img       String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String   @unique
+}
+
+
+model Notification {
+  id          Int              @id @default(autoincrement())
+  type        NotificationType
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  actor       User?            @relation(fields: [actorId], references: [id], name: "NotificationActor")
+  actorId     String?
+  read        Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  post        Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId      Int?
+  comment     Comment?         @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId   Int?
+  follower    Follower?        @relation(fields: [followerId], references: [id], onDelete: Cascade)
+  followerId  Int?
+}
+
+enum NotificationType {
+  LIKE_POST
+  LIKE_COMMENT
+  COMMENT
+  FOLLOW
+  MENTION
+  NEW_POST
+  FOLLOW_REQUEST
 }

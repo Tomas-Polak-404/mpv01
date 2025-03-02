@@ -5,7 +5,11 @@ import { auth } from "@clerk/nextjs/server";
 import React from "react";
 
 
-const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
+const LeftMenu = async ({
+  type,
+}: {
+  type: "home" | "profile";
+}) => {
   const { userId } = await auth();
 
   if (!userId) {
@@ -13,28 +17,30 @@ const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
     return null;
   }
 
-  const user = await prisma.user.findFirst({
-    where: {
-      id: userId,
-    },
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
     include: {
-      _count: {
-        select: {
-          followers: true,
+      notifications: {
+        where: { read: false },
+        orderBy: { createdAt: "desc" },
+        include: {
+          actor: true,
+          post: true,
+          comment: true,
+          follower: true,
         },
+      },
+      _count: {
+        select: { followers: true },
       },
     },
   });
-  console.log(user);
 
   if (!user) {
     console.log("user not found");
     return null;
   }
   const profileUrl = `/profile/${user.username}`;
-
-
-
 
   return (
     <div className="flex flex-col gap-6 ">
@@ -66,16 +72,21 @@ const LeftMenu = async ({ type }: { type: "home" | "profile" }) => {
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
         <Link
-          href="/"
-          className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
+          href="/notifications"
+          className={`flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700 relative`}
         >
           <Image
             src="/activity.png"
-            alt=""
+            alt="Notifications"
             width={30}
             height={30}
           />
-          <span>Activity</span>
+          <span>Notifications</span>
+          {user.notifications.length > 0 && (
+            <div className="absolute right-0 top-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {user.notifications.length}
+            </div>
+          )}
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
 
