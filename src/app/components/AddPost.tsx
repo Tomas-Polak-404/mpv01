@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useActionState } from "react"; // Změna importu
 import AddPostButton from "./AddPostButton";
 import { addPost } from "@/lib/actions";
+import { Image as ImgIcon } from "lucide-react";
 
 const AddPost = () => {
   const { user, isLoaded } = useUser();
@@ -46,7 +47,7 @@ const AddPost = () => {
           <div className="flex">
             <textarea
               placeholder="What's on your mind?"
-              className="bg-black rounded-lg p-2 border-[1px] text-white border-gray-600 flex-1 max-w-[31vw] testCss"
+              className="bg-black rounded-lg p-2 border-[1px] text-white border-gray-600 flex-1 max-w-[31vw] testCss outline-none resize-none"
               name="desc"
               value={desc}
               onChange={handleDescChange}
@@ -74,12 +75,7 @@ const AddPost = () => {
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={() => open()}
                   >
-                    <Image
-                      src="/addimage.png"
-                      width={20}
-                      height={20}
-                      alt=""
-                    />
+                    <ImgIcon/>
                     Photo
                   </div>
                 )}

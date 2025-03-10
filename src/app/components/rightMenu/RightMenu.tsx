@@ -21,7 +21,7 @@ const RightMenu = ({ user }: { user?: User }) => {
         </>
       ) : null}
       <FriendRequests />
-      <Birthdays />
+      
     </div>
   );
 };

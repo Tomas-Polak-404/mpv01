@@ -3,6 +3,7 @@ import Image from "next/image";
 import prisma from "@/lib/client";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
+import { Bell, BookmarkCheck, House, Settings, User } from "lucide-react";
 
 
 const LeftMenu = async ({
@@ -16,6 +17,7 @@ const LeftMenu = async ({
     console.log("userId not found");
     return null;
   }
+  
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -49,12 +51,7 @@ const LeftMenu = async ({
           href="/"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
-          <Image
-            src="/posts.png"
-            alt=""
-            width={30}
-            height={30}
-          />
+          <House />
           <span>Home</span>
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
@@ -62,12 +59,7 @@ const LeftMenu = async ({
           href={profileUrl}
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
-          <Image
-            src="/posts.png"
-            alt=""
-            width={30}
-            height={30}
-          />
+          <User />
           <span>My profile</span>
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
@@ -75,12 +67,7 @@ const LeftMenu = async ({
           href="/notifications"
           className={`flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700 relative`}
         >
-          <Image
-            src="/activity.png"
-            alt="Notifications"
-            width={30}
-            height={30}
-          />
+          <Bell />
           <span>Notifications</span>
           {user.notifications.length > 0 && (
             <div className="absolute right-0 top-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
@@ -91,15 +78,10 @@ const LeftMenu = async ({
         <hr className="border-t-1 border-transparent w-36 self-center" />
 
         <Link
-          href=""
+          href="/saved"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
-          <Image
-            src="/settings.png"
-            alt=""
-            width={30}
-            height={30}
-          />
+          <BookmarkCheck />
           <span>Saved</span>
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
@@ -108,12 +90,7 @@ const LeftMenu = async ({
           href="/settings"
           className="flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700"
         >
-          <Image
-            src="/settings.png"
-            alt=""
-            width={30}
-            height={30}
-          />
+          <Settings />
           <span>Settings</span>
         </Link>
       </div>

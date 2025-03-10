@@ -6,38 +6,78 @@ import PostInteraction from "./PostInteraction";
 import { Suspense } from "react";
 import { auth } from "@clerk/nextjs/server";
 import PostInfo from "./PostInfo";
+import prisma from "@/lib/client";
 
-type FeedPostType = PostType & { user: User } & {
-  likes: [{ userId: string }];
-} & {
+// Přidejte 'type' před export
+export type FeedPostType = PostType & { 
+  user: User;
+  likes: { userId: string }[];
   _count: { comments: number };
 };
+//TODO:
 
-const Post = async ({ post }: { post: FeedPostType }) => {
-  const { userId } = await auth();
+
+
+
+const Post = async ({
+  post,
+  userId,
+}: {
+  post: FeedPostType;
+  userId?: string;
+}) => {
+  
+  const isInitiallySaved = userId
+    ? (await prisma.savedPost.findFirst({
+        where: {
+          userId,
+          postId: post.id,
+        },
+        select: { id: true },
+      })) !== null
+    : false;
+
+
+  
+
   return (
-    // Wrap the entire post in a Link that navigates to /thepost/[post.id]
-    <Link href={`/thepost/${post.id}`}>
-      <div className="flex flex-col gap-4 border-[1px] border-gray-600 p-4 rounded-lg cursor-pointer">
-        {/* USER INFO */}
-        <div className="flex items-center justify-between">
+    <div className="flex flex-col  border-[1px] border-gray-600 p-4 rounded-lg ">
+      {/* USER INFO */}
+      <div className="flex">
+        <div className="flex items-center justify-between  w-[20%]">
           <div className="flex items-center gap-4">
-            <Image
-              src={post.user.avatar || "/noAvatar.png"}
-              width={40}
-              height={40}
-              alt="User avatar"
-              className="w-10 h-10 rounded-full"
-            />
-            <span className="font-medium">
-              {post.user.name && post.user.surname
-                ? post.user.name + " " + post.user.surname
-                : post.user.username}
-            </span>
+            <Link
+              className="cursor-pointer flex items-center gap-4"
+              href={`/profile/${post.user.username}`}
+            >
+              <Image
+                src={post.user.avatar || "/noAvatar.png"}
+                width={40}
+                height={40}
+                alt="User avatar"
+                className="w-10 h-10 rounded-full"
+              />
+              <span className="font-medium">
+                {post.user.name && post.user.surname
+                  ? `${post.user.name} ${post.user.surname}`
+                  : post.user.username}
+              </span>
+            </Link>
           </div>
         </div>
-        {/* POST DESCRIPTION */}
-        <div className="flex flex-col gap-4">
+        <Link
+          href={`/thepost/${post.id}`}
+          className="w-[80%] h-[50px] cursor-pointer"
+          aria-label={`Přejít na příspěvek`}
+        />
+      </div>
+      {/* POST DESCRIPTION */}
+      <Link
+        href={`/thepost/${post.id}`}
+        className="contents" // Důležité pro správné fungování
+        aria-label={`Přejít na příspěvek od ${post.user.username}`}
+      >
+        <div className="flex flex-col gap-4 p-4 cursor-pointer ">
           {post.img && (
             <div className="w-full min-h-96 relative">
               <Image
@@ -50,16 +90,18 @@ const Post = async ({ post }: { post: FeedPostType }) => {
           )}
           <p className="break-all">{post.desc}</p>
         </div>
-        {/* INTERACTIONS */}
-        <Suspense fallback="Loading...">
-          <PostInteraction
-            postId={post.id}
-            likes={post.likes.map((like) => like.userId)}
-            commentNumber={post._count.comments}
-          />
-        </Suspense>
-      </div>
-    </Link>
+      </Link>
+      {/* INTERACTIONS */}
+      <Suspense fallback="Loading...">
+        <PostInteraction
+          postId={post.id}
+          postUsername={post.user.username}
+          likes={post.likes.map((like) => like.userId)}
+          commentNumber={post._count.comments}
+          initialSaved={isInitiallySaved} // Přidáno
+        />
+      </Suspense>
+    </div>
   );
 };
 

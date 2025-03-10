@@ -13,7 +13,7 @@ import FollowingsPopup from "@/app/components/FollowingsPopup";
 
 
 const ProfilePage = async ({ params }: { params: { username: string } }) => {
-  const { username } = params;
+  const { username } =  params;
 
   const user = await prisma.user.findFirst({
     where: {

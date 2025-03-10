@@ -38,6 +38,7 @@ model User {
   stories                Story[]
   notifications Notification[]  // Pro hlavní vztah
   actorNotifications Notification[] @relation("NotificationActor") // Pro actor vztah
+  savedPosts SavedPost[]
 }
 
 model Post {
@@ -52,6 +53,7 @@ model Post {
   likes     Like[]
 
   notifications Notification[]
+  savedBy SavedPost[]
 }
 
 model Comment {
@@ -147,4 +149,16 @@ enum NotificationType {
   MENTION
   NEW_POST
   FOLLOW_REQUEST
+}
+
+
+model SavedPost {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId]) // Zabrání duplicitním uložením
 }

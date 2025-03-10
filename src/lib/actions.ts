@@ -381,3 +381,40 @@ export const getPostById = async (id: string) => {
     },
   });
 };
+
+
+export const toggleSave = async (postId: number) => {
+  const { userId } = await auth();
+  if (!userId) return { error: "Unauthorized" };
+
+  try {
+    const existingSave = await prisma.savedPost.findFirst({
+      where: { userId, postId },
+    });
+
+    let result;
+    if (existingSave) {
+      result = await prisma.savedPost.delete({
+        where: { id: existingSave.id },
+      });
+    } else {
+      result = await prisma.savedPost.create({
+        data: { userId, postId },
+      });
+    }
+
+    // Revalidace všech relevantních cest
+    revalidatePath("/"); // Hlavní feed
+    revalidatePath("/saved"); // Stránka s uloženými příspěvky
+    revalidatePath(`/thepost/${postId}`); // Detail příspěvku
+    revalidatePath(`/profile/[username]`); // Uživatelský profil
+
+    return {
+      action: existingSave ? "removed" : "added",
+      data: result,
+    };
+  } catch (error) {
+    console.error("Save error:", error);
+    return { error: "Failed to save post" };
+  }
+};
