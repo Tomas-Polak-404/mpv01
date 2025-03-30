@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Follower {
   id: string;
@@ -29,11 +30,11 @@ const FollowingsPopup = ({
     <div>
       {/* Tlačítko pro otevření popupu */}
       <div
-        className="flex flex-col items-center cursor-pointer"
+        className="flex flex-row items-center cursor-pointer"
         onClick={() => setOpen(true)}
       >
         <span className="font-medium">{user._count.followings}</span>
-        <span className="text-sm">Following</span>
+        <span className="text-sm">&nbsp;Following</span>
       </div>
 
       {/* Popup okno */}
@@ -62,12 +63,17 @@ const FollowingsPopup = ({
                     key={follower.id}
                     className="flex items-center gap-3 mb-3"
                   >
-                    <img
-                      src={follower.avatar || "/noAvatar.png"}
-                      alt={follower.username}
-                      className="w-10 h-10 rounded-full"
-                    />
-                    <span>{follower.username}</span>
+                    <Link
+                      className="cursor-pointer flex items-center gap-4"
+                      href={`/profile/${follower.username}`}
+                    >
+                      <img
+                        src={follower.avatar || "/noAvatar.png"}
+                        alt={follower.username}
+                        className="w-10 h-10 rounded-full"
+                      />
+                      <span>{follower.username}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>

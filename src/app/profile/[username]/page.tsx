@@ -97,31 +97,36 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
       </div>
       <div className="w-full lg:w-[70%] xl:w-[38%] ">
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col items-center justify-center border-[1px] pb-3 border-gray-600 rounded-lg">
-            <div className="w-full h-64 relative">
+          <div className="flex flex-col items-center justify-center border-[1px] border-gray-600 rounded-lg bg-transparent relative isolate">
+            <div className="w-full h-96 relative">
               <Image
                 src={user.cover || "/noCover.png"}
                 alt=""
                 fill
                 className="object-cover rounded-sm shadow-md"
+                unoptimized
               />
               <Image
                 src={user.avatar || "noAvatar.png"}
                 alt=""
                 width={128}
                 height={128}
-                className="object-cover w-32 h-32 rounded-full absolute left-0 right-0 m-auto ring-4  -bottom-16"
+                className="object-cover w-32 h-32 rounded-full absolute -left-[50%] right-0 m-auto ring-4 top-60"
               />
             </div>
-            <h1 className="mt-20 mb-4 text-2xl font-medium">
-              {user.name && user.surname
-                ? user.name + " " + user.surname
-                : user.username}
-            </h1>
-            <div className="flex items-center justify-center gap-12 mb-4">
-              <div className="flex flex-col items-center">
+
+            <div
+              className="w-full h-20 bg-black -translate-y-20 flex items-center justify-center gap-12 relative pl-40"
+              style={{
+                WebkitMaskImage:
+                  "radial-gradient(circle 100px at 25% 5%, transparent 75px, black 70px)",
+                maskImage:
+                  "radial-gradient(circle 100px at 25% 5%, transparent 75px, black 70px)",
+              }}
+            >
+              <div className="flex flex-row items-center">
                 <span className="font-medium">{user._count.posts}</span>
-                <span className="text-sm">Posts</span>
+                <span className="text-sm">&nbsp;Posts</span>
               </div>
               <FollowersPopup
                 user={user}
@@ -132,7 +137,16 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
                 followings={followings}
               />
             </div>
+
+            <div className="w-full h-28 -translate-y-20 -mb-20 ">
+              <h1 className="mb-4 ml-[12.5%] text-2xl font-medium mt-4  w-44 text-center">
+                {user.name && user.surname
+                  ? user.name + " " + user.surname
+                  : user.username}
+              </h1>
+            </div>
           </div>
+
           <Feed username={user.username} />
         </div>
       </div>

@@ -75,12 +75,11 @@ const AddPost = () => {
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={() => open()}
                   >
-                    <ImgIcon/>
+                    <ImgIcon />
                     Photo
                   </div>
                 )}
               </CldUploadWidget>
-              {/* Zbytek tlačítek */}
             </div>
 
             <div className="text-right text-gray-400 mx-2 ml-4 h-[100%] flex items-center justify-center gap-6">

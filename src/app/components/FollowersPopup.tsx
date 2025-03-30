@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Follower {
   id: string;
@@ -29,16 +30,16 @@ const FollowersPopup = ({
     <div>
       {/* Tlačítko pro otevření popupu */}
       <div
-        className="flex flex-col items-center cursor-pointer"
+        className="flex flex-row items-center cursor-pointer"
         onClick={() => setOpen(true)}
       >
         <span className="font-medium">{user._count.followers}</span>
-        <span className="text-sm">Followers</span>
+        <span className="text-sm">&nbsp;Followers</span>
       </div>
 
       {/* Popup okno */}
       {open && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
           <div className="bg-black border-[1px] border-gray-600 p-6 rounded-lg w-96">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Followers</h2>
@@ -62,12 +63,17 @@ const FollowersPopup = ({
                     key={follower.id}
                     className="flex items-center gap-3 mb-3"
                   >
-                    <img
-                      src={follower.avatar || "/noAvatar.png"}
-                      alt={follower.username}
-                      className="w-10 h-10 rounded-full"
-                    />
-                    <span>{follower.username}</span>
+                    <Link
+                      className="cursor-pointer flex items-center gap-4"
+                      href={`/profile/${follower.username}`}
+                    >
+                      <img
+                        src={follower.avatar || "/noAvatar.png"}
+                        alt={follower.username}
+                        className="w-10 h-10 rounded-full"
+                      />
+                      <span>{follower.username}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>

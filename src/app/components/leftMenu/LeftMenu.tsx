@@ -63,19 +63,7 @@ const LeftMenu = async ({
           <span>My profile</span>
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
-        <Link
-          href="/notifications"
-          className={`flex items-center gap-4 p-2 rounded-lg hover:bg-slate-700 relative`}
-        >
-          <Bell />
-          <span>Notifications</span>
-          {user.notifications.length > 0 && (
-            <div className="absolute right-0 top-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-              {user.notifications.length}
-            </div>
-          )}
-        </Link>
-        <hr className="border-t-1 border-transparent w-36 self-center" />
+        
 
         <Link
           href="/saved"
