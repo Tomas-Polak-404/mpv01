@@ -45,7 +45,7 @@ const LeftMenu = async ({
   const profileUrl = `/profile/${user.username}`;
 
   return (
-    <div className="flex flex-col gap-6 ">
+    <div className="flex flex-col gap-6 select-none">
       <div className="p-4 bg-black rounded-lg border-gray-600 border-[1px] text-sm text-white flex flex-col gap-2">
         <Link
           href="/"
@@ -63,7 +63,6 @@ const LeftMenu = async ({
           <span>My profile</span>
         </Link>
         <hr className="border-t-1 border-transparent w-36 self-center" />
-        
 
         <Link
           href="/saved"

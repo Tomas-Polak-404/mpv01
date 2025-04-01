@@ -5,7 +5,7 @@ import StoryList from "./StoryList";
 
 const Stories = async () => {
   const {userId:currentUserId} = await auth();
-  if (!currentUserId) {throw new Error("User is not authenticated"); return null}
+  if (!currentUserId) {throw new Error("User is not authenticated");}
   const stories = await prisma.story.findMany({
     where: {
       expiresAt: {

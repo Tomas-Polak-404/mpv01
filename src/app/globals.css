@@ -13,3 +13,8 @@
 .testCss {
   field-sizing: content;
 }
+
+
+.transform-none {
+  transform: none !important;
+}

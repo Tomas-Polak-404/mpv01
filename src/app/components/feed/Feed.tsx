@@ -71,7 +71,7 @@ const Feed = async ({ username }: { username?: string }) => {
     });
   }
   return (
-    <div className="p-4 bg-black text-white rounded-lg border-[1px] border-gray-600 flex flex-col gap-8">
+    <div className="p-4 bg-black text-white rounded-lg border-[1px] border-gray-600 flex flex-col gap-8 select-none">
       {posts.length
         ? posts.map((post) => (
             <Post

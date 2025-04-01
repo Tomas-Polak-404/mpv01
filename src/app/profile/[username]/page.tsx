@@ -95,9 +95,10 @@ const ProfilePage = async ({ params }: { params: { username: string } }) => {
       <div className="hidden xl:block xl:fixed w-[18%] -ml-[58%] h-full">
         <LeftMenu type="profile" />
       </div>
+
       <div className="w-full lg:w-[70%] xl:w-[38%] ">
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col items-center justify-center border-[1px] border-gray-600 rounded-lg bg-transparent relative isolate">
+          <div className="flex flex-col items-center justify-center border-[1px] border-gray-600 rounded-lg bg-transparent relative select-none">
             <div className="w-full h-96 relative">
               <Image
                 src={user.cover || "/noCover.png"}

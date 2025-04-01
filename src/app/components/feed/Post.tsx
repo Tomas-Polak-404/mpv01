@@ -55,7 +55,7 @@ const Post = async ({
                 width={40}
                 height={40}
                 alt="User avatar"
-                className="w-10 h-10 rounded-full"
+                className="w-10 h-10 rounded-full "
               />
               <span className="font-medium">
                 {post.user.name && post.user.surname

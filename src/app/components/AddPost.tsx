@@ -4,7 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { useState } from "react";
-import { useActionState } from "react"; // Změna importu
+import { useActionState } from "react"; 
 import AddPostButton from "./AddPostButton";
 import { addPost } from "@/lib/actions";
 import { Image as ImgIcon } from "lucide-react";

@@ -30,14 +30,15 @@ export default function RootLayout({
           />
         </head>
         <body className={inter.className}>
-          <div className="w-full bg-gray-950 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 fixed z-50">
+          <div className="w-full bg-gray-950 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 fixed z-50 select-none">
             <Navbar />
           </div>
-          <div className=" bg-black px-4 ">
+          <div className=" bg-black px-4 select-none">
             <br />
             <br />
             <br />
             <br />
+            <div id="portal-root" />
             {children}
             <Toaster
               position="bottom-center"
