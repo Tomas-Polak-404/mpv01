@@ -18,9 +18,9 @@ export default clerkMiddleware(async (auth, req) => {
     if (!baseUrl) {
       throw new Error("NEXT_PUBLIC_BASE_URL není definována v prostředí.");
     }
-    const signInUrl = new URL("/sign-in", baseUrl);
-    signInUrl.searchParams.set("redirect_url", req.url);
-    return NextResponse.redirect(signInUrl.toString(), 302);
+    const signUp = new URL("/sign-up", baseUrl);
+    signUp.searchParams.set("redirect_url", req.url);
+    return NextResponse.redirect(signUp.toString(), 302);
   }
 
   return NextResponse.next();

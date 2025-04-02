@@ -2,9 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react"
+import { auth } from "@clerk/nextjs/server";
+import prisma from "@/lib/client";
 
-const MobileMenu = () => {
+
+const MobileMenu =  () => {
     const [isOpen, setIsOpen] = useState(false);
+    
+
+
     return (
         <div className="md:hidden">
             <div className="flex flex-col gap-[4.5px] cursor-pointer"
@@ -30,7 +36,7 @@ const MobileMenu = () => {
             {isOpen && (
                 <div className="absolute left-0 top-24 w-full h-[calc(100vh-96px)] bg-black flex flex-col items-center justify-center gap-8 font-medium text-xl z-10">
                     <Link href="/">Home</Link>
-                    <Link href="/">Friends</Link>
+                    <Link href="/">My Profile</Link>
                     <Link href="/">Groups</Link>
                     <Link href="/">Stories</Link>
                     <Link href="/">Login</Link>

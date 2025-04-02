@@ -39,6 +39,7 @@ model User {
   notifications Notification[]  // Pro hlavní vztah
   actorNotifications Notification[] @relation("NotificationActor") // Pro actor vztah
   savedPosts SavedPost[]
+  
 }
 
 model Post {

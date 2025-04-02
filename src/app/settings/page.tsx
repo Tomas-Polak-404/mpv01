@@ -12,7 +12,7 @@ const SettingsPage = () => {
       <div className="hidden xl:block xl:fixed w-[18%] -ml-[58%] h-full">
         <LeftMenu type="profile" />
       </div>
-      <ClientSettings/>
+      
     </div>
   );
 };

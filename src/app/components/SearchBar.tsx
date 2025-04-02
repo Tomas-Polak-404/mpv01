@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // Použijte next/navigation místo next/router
+import { useRouter } from "next/navigation";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
