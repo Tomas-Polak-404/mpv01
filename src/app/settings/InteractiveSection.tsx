@@ -1,4 +1,4 @@
-// components/InteractiveSection.tsx
+
 "use client";
 
 type Section = {
@@ -15,11 +15,6 @@ const InteractiveSection = ({
 }) => {
   const sections: Section[] = [
     { id: "privacy", label: "Privacy" },
-    { id: "account", label: "Your account" },
-    { id: "security", label: "Security" },
-    { id: "access", label: "Accessibility" },
-    { id: "posts", label: "Posts" },
-    { id: "activity", label: "Your activity" },
   ];
 
   return (

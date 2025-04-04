@@ -4,10 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 
 const PostInfo = ({ postId }: { postId: number }) => {
-  const [open, setOpen] = useState(false); // stav pro dropdown menu (more options)
-  const [confirmOpen, setConfirmOpen] = useState(false); // stav pro potvrzovací modál
+  const [open, setOpen] = useState(false); 
+  const [confirmOpen, setConfirmOpen] = useState(false); 
 
-  // Funkce pro smazání příspěvku, zavolá serverovou akci deletePost
   const deletePostWithId = async () => {
     try {
       await deletePost(postId);
@@ -15,7 +14,6 @@ const PostInfo = ({ postId }: { postId: number }) => {
     } catch (error) {
       console.error("Error deleting post:", error);
     }
-    // Po smazání zavřeme obě okna
     setConfirmOpen(false);
     setOpen(false);
   };
@@ -42,7 +40,6 @@ const PostInfo = ({ postId }: { postId: number }) => {
       )}
 
       {confirmOpen && (
-        // Modální okno, které překryje celou obrazovku
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40 w-full">
           <div className="bg-black text-white p-4 rounded-lg shadow-lg border-[1px] border-gray-600 w-[20%]">
             <span className="text-xl text-white">Delete post?</span><br/>

@@ -20,12 +20,7 @@ const FriendRequests = async () => {
     <div className="p-4 bg-black rounded-lg border-[1px] border-gray-600 text-sm flex flex-col gap-4">
       <div className="flex items-center justify-between font-medium">
         <span className="text-white">Friend requests</span>
-        <Link
-          href="/requests"
-          className="text-blue-500 text-xs"
-        >
-          See all
-        </Link>
+       
       </div>
 
       {requests.length === 0 ? (

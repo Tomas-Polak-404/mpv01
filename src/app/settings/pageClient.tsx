@@ -3,11 +3,6 @@
 import { useState } from "react";
 import InteractiveSection from "./InteractiveSection";
 import PrivacySettings from "./Privacy";
-import AccountSettings from "./Account";
-import SecuritySettings from "./Security";
-import AccessibilitySettings from "./Accessibility";
-import PostsSettings from "./PostSettings";
-import ActivitySettings from "./Activity";
 
 const ClientSettings = () => {
   const [activeSection, setActiveSection] = useState("privacy");
@@ -16,16 +11,6 @@ const ClientSettings = () => {
     switch (activeSection) {
       case "privacy":
         return <PrivacySettings />;
-      case "account":
-        return <AccountSettings />;
-      case "security":
-        return <SecuritySettings />;
-      case "access":
-        return <AccessibilitySettings />;
-      case "posts":
-        return <PostsSettings />;
-      case "activity":
-        return <ActivitySettings />;
       default:
         return <PrivacySettings />;
     }
@@ -40,7 +25,7 @@ const ClientSettings = () => {
           setActiveSection={setActiveSection}
         />
       </div>
-      <div className="w-[150%]  transition-all duration-400 ease-in-out rounded-md relative border-gray-600 border-[1px] bg-black">
+      <div className="w-[150%] transition-all duration-400 ease-in-out rounded-md relative border-gray-600 border-[1px] bg-black">
         {renderActiveSection()}
       </div>
     </div>

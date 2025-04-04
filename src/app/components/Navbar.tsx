@@ -26,7 +26,7 @@ const Navbar = () => {
 
       {/* CENTER */}
       <div className="flex w-[50%] text-small items-center justify-center">
-        <SearchBar /> {/* Použití SearchBar komponenty */}
+        <SearchBar /> 
       </div>
 
       {/* RIGHT */}

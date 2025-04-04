@@ -7,8 +7,40 @@ const Feed = async ({ username }: { username?: string }) => {
 
   let posts: any[] = [];
 
-  // Pokud je zadané 'username', zobrazí se příspěvky pouze od tohoto uživatele
   if (username) {
+    const targetUser = await prisma.user.findUnique({
+      where: { username },
+      select: {
+        id: true,
+        isPrivate: true,
+      },
+    });
+
+    if (!targetUser) {
+      return (
+        <div className="p-4 bg-black text-white rounded-lg border-[1px] border-gray-600">
+          User not found
+        </div>
+      );
+    }
+
+    if (targetUser.isPrivate && userId && targetUser.id !== userId) {
+      const isFollowing = await prisma.follower.findFirst({
+        where: {
+          followerId: userId,
+          followingId: targetUser.id,
+        },
+      });
+
+      if (!isFollowing) {
+        return (
+          <div className="p-4 bg-black text-white rounded-lg border-[1px] border-gray-600">
+            This account is private. Follow this user to see their posts.
+          </div>
+        );
+      }
+    }
+
     posts = await prisma.post.findMany({
       where: {
         user: {
@@ -33,10 +65,32 @@ const Feed = async ({ username }: { username?: string }) => {
       },
     });
   }
+  else {
 
-  // Pokud není 'username' a uživatel je přihlášen, zobrazí se příspěvky všech uživatelů
-  if (!username) {
+    const followingUsers = userId
+      ? await prisma.follower.findMany({
+          where: { followerId: userId },
+          select: { followingId: true },
+        })
+      : [];
+
+    const followingIds = followingUsers.map((follow) => follow.followingId);
+
     posts = await prisma.post.findMany({
+      where: {
+        OR: [
+          // Show posts from public accounts
+          { user: { isPrivate: false } },
+          {
+            user: {
+              isPrivate: true,
+              id: { in: followingIds },
+            },
+          },
+          // Always show the user's own posts
+          userId ? { userId: userId } : {},
+        ],
+      },
       include: {
         user: true,
         likes: {

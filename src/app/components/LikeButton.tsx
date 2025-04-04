@@ -47,4 +47,4 @@ const LikeButton = ({
 };
 
 
-export default LikeButton; // Přidáno default export
+export default LikeButton; 

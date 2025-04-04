@@ -5,7 +5,7 @@ import PostInteraction from "@/app/components/feed/PostInteraction";
 import { Suspense } from "react";
 import { auth } from "@clerk/nextjs/server";
 import PostInfo from "@/app/components/feed/PostInfo";
-import { getPostById } from "@/lib/actions"; // Implementujte tuto funkci podle potřeby
+import { getPostById } from "@/lib/actions"; 
 import LeftMenu from "@/app/components/leftMenu/LeftMenu";
 import Link from "next/link";
 
@@ -16,6 +16,39 @@ type FeedPostType = PostType & {
   likes: { userId: string }[];
 } & {
   _count: { comments: number };
+};
+
+// Funkce pro formátování relativního času
+const formatRelativeTime = (date: Date) => {
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+  
+  // Pro posledních 5 dní zobrazíme relativní čas (X days ago / X hours ago)
+  if (diffDays < 5) {
+    if (diffDays === 0) {
+      // Méně než den - zobrazíme hodiny
+      if (diffHours === 0) {
+        return "Just now";
+      } else if (diffHours === 1) {
+        return "1 hour ago";
+      } else {
+        return `${diffHours} hours ago`;
+      }
+    } else if (diffDays === 1) {
+      return "1 day ago";
+    } else {
+      return `${diffDays} days ago`;
+    }
+  } else {
+    // Pro starší příspěvky zobrazíme běžný formát datumu
+    return date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
 };
 
 // Typ parametrů stránky
@@ -55,11 +88,16 @@ const ThePost = async ({ params: { id } }: PageProps) => {
                   alt="User avatar"
                   className="w-10 h-10 rounded-full"
                 />
-                <span className="font-medium">
-                  {post.user.name && post.user.surname
-                    ? `${post.user.name} ${post.user.surname}`
-                    : post.user.username}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">
+                    {post.user.name && post.user.surname
+                      ? `${post.user.name} ${post.user.surname}`
+                      : post.user.username}
+                  </span>
+                  <span className="text-sm text-gray-400">
+                    {formatRelativeTime(new Date(post.createdAt))}
+                  </span>
+                </div>
               </Link>
             </div>
             {userId === post.user.id && <PostInfo postId={post.id} />}

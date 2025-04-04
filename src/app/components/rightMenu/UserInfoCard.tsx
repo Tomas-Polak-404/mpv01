@@ -56,7 +56,7 @@ const UserInfoCard = async ({ user }: { user: User }) => {
       <div className="flex items-center justify-between font-medium">
         <span className="text-gray-300">User Information</span>
         {currentUserId === user.id ? (
-          <UpdateUser user={user}/>
+          <UpdateUser user={user} />
         ) : (
           <Link
             href="/"
@@ -127,8 +127,14 @@ const UserInfoCard = async ({ user }: { user: User }) => {
               />
               <hr />
               <Link
-                href={user.website}
+                href={
+                  user.website.startsWith("http")
+                    ? user.website
+                    : `https://${user.website}`
+                }
                 className="text-blue-500 font-medium"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {user.website}
               </Link>

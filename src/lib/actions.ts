@@ -418,3 +418,64 @@ export const toggleSave = async (postId: number) => {
     return { error: "Failed to save post" };
   }
 };
+
+
+
+
+
+export async function togglePrivateAccount() {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new Error("User not found");
+
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: { isPrivate: !user.isPrivate },
+  });
+
+  return updatedUser.isPrivate;
+}
+
+export const deleteComment = async (
+  commentId: number
+): Promise<{ success: boolean; error?: string }> => {
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    // Convert to number if needed
+    const commentIdNumber = Number(commentId);
+
+    // Verify the user is the owner of the comment
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentIdNumber },
+      include: { post: true }, // Přidáváme include pro získání postId
+    });
+
+    if (!comment) {
+      throw new Error("Comment not found");
+    }
+
+    if (comment.userId !== userId) {
+      throw new Error("Unauthorized - you can only delete your own comments");
+    }
+
+    // Delete the comment
+    await prisma.comment.delete({
+      where: { id: commentIdNumber },
+    });
+
+    // Revalidace cesty k příspěvku, ve kterém je komentář
+    revalidatePath(`/thepost/${comment.postId}`);
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Error deleting comment:", error);
+    return { success: false, error: error.message };
+  }
+};

@@ -94,7 +94,7 @@ const PostInteraction = ({
         >
           <div
             id="comments"
-            className="flex items-center gap-4 p-2  "
+            className="flex items-center gap-4 p-2"
           >
             <MessageCircleDashed
               size={20}

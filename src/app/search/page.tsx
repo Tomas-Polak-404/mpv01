@@ -24,13 +24,9 @@ const SearchPage = async ({
         <LeftMenu type="home" />
       </div>
       <div className="w-[38%] mx-auto p-4 border-[1px] border-gray-600 rounded-lg flex gap-6 justify-center">
-        {!query && (
-          <div className="text-gray-500 text-center py-8">Hledej něco...</div>
-        )}
-
         {query && users.length === 0 && (
           <div className="text-gray-500 text-center py-8">
-            Žádní uživatelé nenalezeni pro "{query}"
+            No users found for "{query}"
           </div>
         )}
 

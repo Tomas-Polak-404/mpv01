@@ -13,6 +13,8 @@ const SettingsPage = () => {
         <LeftMenu type="profile" />
       </div>
       
+      <ClientSettings />
+      
     </div>
   );
 };

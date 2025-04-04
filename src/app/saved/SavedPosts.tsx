@@ -14,7 +14,7 @@ const SavedPosts = ({
         <Post
           key={post.id}
           post={post}
-          userId={userId} // Předáváme userId dál
+          userId={userId} 
         />
       ))}
     </div>

@@ -1,4 +1,4 @@
-"use client"; // Tato komponenta používá React hooky, takže musí být Client Component
+"use client"; 
 
 import { useState } from "react";
 import Image from "next/image";
@@ -11,7 +11,6 @@ const SearchBar = () => {
   const handleSearch = () => {
     if (query.trim() === "") return;
 
-    // Přesměrování na stránku s výsledky vyhledávání
     router.push(`/search?q=${encodeURIComponent(query)}`);
   };
 

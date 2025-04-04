@@ -8,16 +8,40 @@ import { auth } from "@clerk/nextjs/server";
 import PostInfo from "./PostInfo";
 import prisma from "@/lib/client";
 
-// Přidejte 'type' před export
-export type FeedPostType = PostType & { 
+export type FeedPostType = PostType & {
   user: User;
   likes: { userId: string }[];
   _count: { comments: number };
 };
-//TODO:
 
+const formatRelativeTime = (date: Date) => {
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
 
-
+  if (diffDays < 5) {
+    if (diffDays === 0) {
+      if (diffHours === 0) {
+        return "Just now";
+      } else if (diffHours === 1) {
+        return "1 hour ago";
+      } else {
+        return `${diffHours} hours ago`;
+      }
+    } else if (diffDays === 1) {
+      return "1 day ago";
+    } else {
+      return `${diffDays} days ago`;
+    }
+  } else {
+    return date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
+};
 
 const Post = async ({
   post,
@@ -26,7 +50,6 @@ const Post = async ({
   post: FeedPostType;
   userId?: string;
 }) => {
-  
   const isInitiallySaved = userId
     ? (await prisma.savedPost.findFirst({
         where: {
@@ -37,14 +60,11 @@ const Post = async ({
       })) !== null
     : false;
 
-
-  
-
   return (
     <div className="flex flex-col  border-[1px] border-gray-600 p-4 rounded-lg ">
       {/* USER INFO */}
       <div className="flex">
-        <div className="flex items-center justify-between  w-[20%]">
+        <div className="flex items-center justify-start gap-2 w-[100%] ">
           <div className="flex items-center gap-4">
             <Link
               className="cursor-pointer flex items-center gap-4"
@@ -64,6 +84,9 @@ const Post = async ({
               </span>
             </Link>
           </div>
+          <div className="text-sm text-gray-400 ">
+            {formatRelativeTime(new Date(post.createdAt))}
+          </div>
         </div>
         <Link
           href={`/thepost/${post.id}`}
@@ -74,7 +97,7 @@ const Post = async ({
       {/* POST DESCRIPTION */}
       <Link
         href={`/thepost/${post.id}`}
-        className="contents" // Důležité pro správné fungování
+        className="contents" 
         aria-label={`Přejít na příspěvek od ${post.user.username}`}
       >
         <div className="flex flex-col gap-4 p-4 cursor-pointer ">
@@ -98,7 +121,7 @@ const Post = async ({
           postUsername={post.user.username}
           likes={post.likes.map((like) => like.userId)}
           commentNumber={post._count.comments}
-          initialSaved={isInitiallySaved} // Přidáno
+          initialSaved={isInitiallySaved} 
         />
       </Suspense>
     </div>

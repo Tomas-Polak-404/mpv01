@@ -15,16 +15,15 @@ const SavedPage = async () => {
     return <div>Please login to view saved posts</div>;
   }
 
-  // Toto je ta důležitá část:
   const savedPosts = await prisma.savedPost.findMany({
     where: { userId },
     include: {
       post: {
         include: {
-          user: true, // Načte autora příspěvku
-          likes: true, // Načte všechny liky
+          user: true, 
+          likes: true, 
           _count: {
-            select: { comments: true }, // Spočte komentáře
+            select: { comments: true }, 
           },
         },
       },
@@ -33,7 +32,7 @@ const SavedPage = async () => {
   });
 
   const transformedPosts = savedPosts.map((savedPost) => ({
-    // Povinná základní pole
+
     id: savedPost.post.id,
     desc: savedPost.post.desc,
     img: savedPost.post.img,
@@ -41,7 +40,6 @@ const SavedPage = async () => {
     updatedAt: savedPost.post.updatedAt,
     userId: savedPost.post.userId,
 
-    // Vztahy
     user: savedPost.post.user,
     likes: savedPost.post.likes,
     _count: {
@@ -56,7 +54,7 @@ const SavedPage = async () => {
       </div>
       <SavedPosts
         initialPosts={transformedPosts}
-        userId={userId} // Předáme userId získané z auth()
+        userId={userId} 
       />
     </div>
   );
